@@ -1,0 +1,4 @@
+services:
+    dugun_queue:
+        class: Dugun\QueueBundle\Queue\QueueFactory
+        arguments: ['%dugun_queue%']
