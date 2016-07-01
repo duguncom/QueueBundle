@@ -14,5 +14,8 @@
   ],
   "autoload": {
     "psr-4": { "Dugun\\QueueBundle\\": "" }
+  },
+  "suggest": {
+    "google/apiclient": "If you are going to use Google Pubsub, you need to install it."
   }
 }
