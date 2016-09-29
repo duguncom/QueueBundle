@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                                 ->values(['google_pubsub', 'sqs'])
                             ->end()
                             ->scalarNode('topic')->end()
+                            ->scalarNode('subscriber')->end()
                         ->end()
                     ->end()
                 ->end()

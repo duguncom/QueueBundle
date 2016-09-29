@@ -30,7 +30,8 @@ class QueueFactory
         switch ($queueConfig['provider']) {
             case 'google_pubsub':
                 $queue = new Queue($queueConfig['id']);
-                $queue->setQueueId($queueConfig['topic']);
+                $queue->setTopic($queueConfig['topic']);
+                $queue->setSubscriber($queueConfig['subscriber']);
 
                 return $queue;
             default:

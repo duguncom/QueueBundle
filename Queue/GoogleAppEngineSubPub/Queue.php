@@ -29,7 +29,12 @@ class Queue extends AbstractQueue
     /**
      * @var string
      */
-    private $queueId;
+    private $topic;
+
+    /**
+     * @var string
+     */
+    private $subscriber;
 
     public function __construct($projectId)
     {
@@ -41,24 +46,35 @@ class Queue extends AbstractQueue
         $this->projectId = $projectId;
     }
 
-    public function setQueueId($queueId)
+    /**
+     * @param string $topic
+     */
+    public function setTopic($topic)
     {
-        $this->queueId = $queueId;
+        $this->topic = $topic;
+    }
+
+    /**
+     * @param string $subscriber
+     */
+    public function setSubscriber($subscriber)
+    {
+        $this->subscriber = $subscriber;
     }
 
     public function sendMessage($message)
     {
-        $this->sendMessageToQueue($this->queueId, $message);
+        $this->sendMessageToQueue($this->topic, $message);
     }
 
     public function sendMessages(array $messages)
     {
-        $this->sendMessagesToQueue($this->queueId, $messages);
+        $this->sendMessagesToQueue($this->topic, $messages);
     }
 
     public function getMessages($count)
     {
-        return $this->getMessagesFromQueue($this->queueId, $count);
+        return $this->getMessagesFromQueue($this->subscriber, $count);
     }
 
     /**
@@ -90,18 +106,18 @@ class Queue extends AbstractQueue
     }
 
     /**
-     * @param $queue
+     * @param $subscriber
      * @param $count
      *
      * @return array
      */
-    public function getMessagesFromQueue($queue, $count)
+    public function getMessagesFromQueue($subscriber, $count)
     {
         $pullRequest = new \Google_Service_Pubsub_PullRequest();
         $pullRequest->setMaxMessages($count);
         $receivedMessages = $this->pubSub
             ->projects_subscriptions
-            ->pull($this->getSubscription($queue), $pullRequest)
+            ->pull($this->getSubscription($subscriber), $pullRequest)
             ->getReceivedMessages();
 
         $messages = $ackIds = [];
@@ -113,7 +129,7 @@ class Queue extends AbstractQueue
         if (count($ackIds)) {
             $acknowledgeRequest = new \Google_Service_Pubsub_AcknowledgeRequest();
             $acknowledgeRequest->setAckIds($ackIds);
-            $this->pubSub->projects_subscriptions->acknowledge($this->getSubscription($queue), $acknowledgeRequest);
+            $this->pubSub->projects_subscriptions->acknowledge($this->getSubscription($subscriber), $acknowledgeRequest);
         }
 
         return $messages;
