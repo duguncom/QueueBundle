@@ -11,7 +11,7 @@ use Google_Service_Pubsub_PubsubMessage;
 
 /**
  * Class Queue.
- * 
+ *
  * @author Farhad Safarov <farhad.safarov@gmail.com>
  */
 class Queue extends AbstractQueue
@@ -51,6 +51,11 @@ class Queue extends AbstractQueue
         $this->sendMessageToQueue($this->queueId, $message);
     }
 
+    public function sendMessages(array $messages)
+    {
+        $this->sendMessagesToQueue($this->queueId, $messages);
+    }
+
     public function getMessages($count)
     {
         return $this->getMessagesFromQueue($this->queueId, $count);
@@ -62,11 +67,24 @@ class Queue extends AbstractQueue
      */
     public function sendMessageToQueue($queue, $message)
     {
-        $pubSubMessage = new Google_Service_Pubsub_PubsubMessage();
-        $pubSubMessage->setData(Serializer::serialize($message));
+        $this->sendMessagesToQueue($queue, [$message]);
+    }
+
+    /**
+     * @param $queue
+     * @param array $messages
+     */
+    public function sendMessagesToQueue($queue, array $messages)
+    {
+        $messagesData = [];
+        foreach ($messages as $message) {
+            $pubSubMessage = new Google_Service_Pubsub_PubsubMessage();
+            $pubSubMessage->setData(Serializer::serialize($message));
+            $messagesData[] = $pubSubMessage;
+        }
 
         $publishRequest = new Google_Service_Pubsub_PublishRequest();
-        $publishRequest->setMessages([$pubSubMessage]);
+        $publishRequest->setMessages($messagesData);
 
         $this->pubSub->projects_topics->publish($this->getTopic($queue), $publishRequest);
     }
