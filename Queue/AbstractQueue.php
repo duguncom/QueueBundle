@@ -10,13 +10,11 @@ namespace Dugun\QueueBundle\Queue;
 abstract class AbstractQueue implements QueueInterface
 {
     /**
-     * @param $queue
-     *
      * @return mixed
      */
-    public function getMessage($queue)
+    public function getMessage()
     {
-        $messages = $this->getMessages($queue, 1);
+        $messages = $this->getMessages(1);
 
         if (!count($messages)) {
             return;
