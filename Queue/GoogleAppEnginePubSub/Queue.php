@@ -1,6 +1,6 @@
 <?php
 
-namespace Dugun\QueueBundle\Queue\GoogleAppEngineSubPub;
+namespace Dugun\QueueBundle\Queue\GoogleAppEnginePubSub;
 
 use Dugun\QueueBundle\Queue\AbstractQueue;
 use Dugun\QueueBundle\Queue\Serializer;
@@ -36,7 +36,7 @@ class Queue extends AbstractQueue
      */
     private $subscriber;
 
-    public function __construct($projectId)
+    public function __construct($projectId, $topic, $subscriber)
     {
         $client = new Google_Client();
         $client->useApplicationDefaultCredentials();
@@ -44,21 +44,7 @@ class Queue extends AbstractQueue
 
         $this->pubSub = new Google_Service_Pubsub($client);
         $this->projectId = $projectId;
-    }
-
-    /**
-     * @param string $topic
-     */
-    public function setTopic($topic)
-    {
         $this->topic = $topic;
-    }
-
-    /**
-     * @param string $subscriber
-     */
-    public function setSubscriber($subscriber)
-    {
         $this->subscriber = $subscriber;
     }
 
@@ -133,6 +119,11 @@ class Queue extends AbstractQueue
         }
 
         return $messages;
+    }
+
+    public function acknowledge($id)
+    {
+        throw new \RuntimeException('Not implemented yet');
     }
 
     private function getProject()

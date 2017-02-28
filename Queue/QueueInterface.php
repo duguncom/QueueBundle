@@ -15,9 +15,5 @@ interface QueueInterface
 
     public function getMessages($count);
 
-    public function sendMessageToQueue($queue, $message);
-
-    public function sendMessagesToQueue($queue, array $messages);
-
-    public function getMessagesFromQueue($queue, $count);
+    public function acknowledge($id);
 }
