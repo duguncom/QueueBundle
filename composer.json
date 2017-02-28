@@ -16,6 +16,7 @@
     "psr-4": { "Dugun\\QueueBundle\\": "" }
   },
   "suggest": {
+    "seferov/aws-bundle": "If you are going to use AWS SQS, you need to install it.",
     "google/apiclient": "If you are going to use Google Pubsub, you need to install it."
   }
 }
