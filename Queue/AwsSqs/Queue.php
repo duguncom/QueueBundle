@@ -66,8 +66,14 @@ class Queue extends AbstractQueue
 
         $result = [];
         foreach ($messages as $message) {
+            try {
+                $body = Serializer::unserialize($message['Body']);
+            } catch (\Exception $e) {
+                $body = null;
+            }
+
             $result[$message['MessageId']] = [
-                'body' => Serializer::unserialize($message['Body']),
+                'body' => $body,
                 'info' => $message,
             ];
         }
