@@ -27,9 +27,6 @@ class DugunQueueExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('dugun_queue', $config);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-
         foreach ($config['queues'] as $name => $queueConfig) {
             switch ($queueConfig['provider']) {
                 case 'aws_sqs':
