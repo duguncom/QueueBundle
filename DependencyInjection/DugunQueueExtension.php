@@ -45,7 +45,7 @@ class DugunQueueExtension extends Extension
                     throw new \InvalidArgumentException();
             }
 
-            $definition->setTags(['dugun.queue']);
+            $definition->addTag('dugun.queue');
             $container->setDefinition('dugun_queue.'.$name, $definition);
         }
     }
