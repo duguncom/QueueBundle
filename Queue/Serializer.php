@@ -16,6 +16,12 @@ class Serializer
 
     public static function unserialize($string)
     {
-        return unserialize(base64_decode($string));
+        $result = @unserialize(base64_decode($string));
+        
+        if (!$result) {
+            return $string;
+        }
+        
+        return $result;
     }
 }
