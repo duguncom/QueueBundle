@@ -3,7 +3,7 @@
   "description": "Queue bundle for dugun.com",
   "type": "symfony-bundle",
   "require": {
-    "symfony/framework-bundle": "^2.7|^3.0"
+    "symfony/framework-bundle": "^2.7|^3.0|^4.0"
   },
   "license": "MIT",
   "authors": [
