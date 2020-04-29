@@ -46,6 +46,7 @@ class DugunQueueExtension extends Extension
             }
 
             $definition->addTag('dugun.queue');
+            $definition->setPublic(true);
             $container->setDefinition('dugun_queue.'.$name, $definition);
         }
     }
